@@ -8,7 +8,7 @@ answers = []
 Counter = {}
 s = sched.scheduler(time.time, time.sleep)
 
-@bot.message_handler(commands=['help', 'start']):
+@bot.message_handler(commands=['help', 'start'])
 def send_welcome(message):
    bot.send_message(message.chat.id, '''Hello, I am vandal_bot!
 If you want to stop working with me send "stop"''')
@@ -20,20 +20,19 @@ def send_photo(message):
    bot.send_photo(message.chat.id, open('/{}.jpg'.format(1), 'rb'))
    bot.send_message(message.chat.id,'Answer to me, do you like this picture. Answer only "/yes" or "/no"')
 
-@bot.message_handler(commands=['yes']):
+@bot.message_handler(commands=['yes'])
 def answer_function_good(message,counter):
    Counter[chat_id] = Counter(get(chat_id, val)) + 1
-   if Counter[chat_id] = 10:
-      def ask_function(chat_id):
-         bot.send.message(chat_id, 'If you want to see the pictures of great artistse in any time send me "/anytime"')
+   if Counter[chat_id] == 10:
+      bot.send.message(chat_id, 'If you want to see the pictures of great artistse in any time send me "/anytime"')
    else:
       send_photo(message)
 
-@bot.message_handler(commands=['no']):
+@bot.message_handler(commands=['no'])
 def answer_function_bad(message,counter):
    pass
 
-@bot.message_handler(commands=['anytime']):
+@bot.message_handler(commands=['anytime'])
 def aytime(message, scheduler):
    bot.send.message(message.chat.id,'''If you want to see pictures every hour send me "/hour",
 If you want to see pictures every half of day send me "/half_day"
