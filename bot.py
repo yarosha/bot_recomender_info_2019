@@ -62,6 +62,6 @@ def every_half_of_day_interval(message):
    s.run()
 @bot.message_handler(commands=['day'])
 def every_day_interval(message):
-   s.enter(86400, 1, sendp_hoto,argument = (message,))
+   s.enter(86400, 1, send_photo,argument = (message,))
    s.run()  
 bot.polling(none_stop = True)
