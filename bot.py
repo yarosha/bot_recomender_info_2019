@@ -13,11 +13,11 @@ def send_welcome(message):
    bot.send_message(message.chat.id, '''Hello, I am vandal_bot!
 If you want to stop working with me send "stop"''')
    #s.enter(0, 1, sendphoto,argument = (message.chat.id))
-   bot.send_photo(message.chat.id, open('/{}.jpg'.format(1), 'rb'))
+   bot.send_photo(message.chat.id, open('Vasnetsov/{}.jpg'.format(2), 'rb'))
    bot.send_message(message.chat.id,'Answer to me, do you like this picture. Answer only "/yes" or "/no"')
    
 def send_photo(message):
-   bot.send_photo(message.chat.id, open('/{}.jpg'.format(1), 'rb'))
+   bot.send_photo(message.chat.id, open('Vasnetsov/{}.jpg'.format(2), 'rb'))
    bot.send_message(message.chat.id,'Answer to me, do you like this picture. Answer only "/yes" or "/no"')
 
 @bot.message_handler(commands=['yes'])
@@ -29,7 +29,7 @@ def answer_function_good(message,counter):
       send_photo(message)
 
 @bot.message_handler(commands=['no'])
-def answer_function_bad(message,counter):
+def answer_function_bad(message):
    pass
 
 @bot.message_handler(commands=['anytime'])
