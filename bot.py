@@ -19,6 +19,10 @@ def send_photo(message):
    print(1)
    bot.send_photo(message.chat.id, open('Vasnetsov/{}.jpg'.format(2), 'rb'))
    bot.send_message(message.chat.id,'Answer to me, do you like this picture. Answer only "/yes" or "/no"')
+   if (Counter[message.chat.id] >= 1):
+      print(2)
+      s.enter(15, 1, send_photo, argument = (message,))
+      s.run()
 
 @bot.message_handler(commands=['yes'])
 def answer_function_good(message):
