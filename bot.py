@@ -4,6 +4,24 @@ import sched
 import time
 token ='650690422:AAEsDalv8DDRAqZYW-bz_3LhcCrc9NqYujI'
 bot = telebot.TeleBot(token)
+answers = []
+Counter = {}
+s = sched.scheduler(time.time, time.sleep)
+
+@bot.message_handler(commands=['help', 'start'])
+def send_welcome(message):
+   bot.send_message(message.chat.id, '''Hello, I am vandal_bot!
+If you want to stop working with me send "stop"''')
+   #s.enter(0, 1, sendphoto,argument = (message.chat.id))
+   bot.send_photo(message.chat.id, open('/{}.jpg'.format(1), 'rb'))
+   bot.send_message(message.chat.id,'Answer to me, do you like this picture. Answer only "/yes" or "/no"')
+   
+def send_photo(messageimport telebot, json
+import random
+import sched
+import time
+token ='650690422:AAEsDalv8DDRAqZYW-bz_3LhcCrc9NqYujI'
+bot = telebot.TeleBot(token)
 Counter = {}
 s = sched.scheduler(time.time, time.sleep)
 
@@ -24,7 +42,12 @@ def send_photo(message):
       s.enter(15, 1, send_photo, argument = (message,))
       s.run()
 
-@bot.message_handler(commands=['yes'])
+def gen_markup():
+    markup = InlineKeyboardMarkup()
+    markup.row_width = 2
+    markup.add(InlineKeyboardButton("Yes", callback_data=f"cb_yes"),
+                               InlineKeyboardButton("No", callback_data=f"cb_no"))
+@bot.message_handler(commands=['yes'])               
 def answer_function_good(message):
    if (message.chat.id in Counter.keys()):
       Counter[message.chat.id] = Counter[message.chat.id] + 1
