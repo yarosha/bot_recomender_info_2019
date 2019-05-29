@@ -1,4 +1,4 @@
-import telebot, json 
+import telebot, json
 import random
 import sched
 import time
@@ -23,28 +23,29 @@ def send_photo(message):
       print(2)
       s.enter(15, 1, send_photo, argument = (message,))
       s.run()
-
+      
 def gen_markup():
     markup = InlineKeyboardMarkup()
     markup.row_width = 2
     markup.add(InlineKeyboardButton("Yes", callback_data=f"cb_yes"),
                                InlineKeyboardButton("No", callback_data=f"cb_no"))
-@bot.message_handler(commands=['yes'])               
-def answer_function_good(message):
-   if (message.chat.id in Counter.keys()):
-      Counter[message.chat.id] = Counter[message.chat.id] + 1
-   else:
-      Counter[message.chat.id] = 1
-   if Counter[message.chat.id] == 1:
-      bot.send_message(message.chat.id, 'If you want to see the pictures of great artistse in any time send me "/anytime"')
-   elif (Counter[message.chat.id] > 1):
-      s.run()
-   else:
-      send_photo(message)
+    return markup
 
-@bot.message_handler(commands=['no'])
-def answer_function_bad(message):
-   pass
+@bot.callback_query_handler(func=lambda call: True)
+def callback_query(call):
+   if call.data == "cb_yes":
+      if (message.chat.id in Counter.keys()):
+      Counter[message.chat.id] = Counter[message.chat.id] + 1
+      else:
+         Counter[message.chat.id] = 10
+      if Counter[message.chat.id] == 10:
+         bot.send_message(message.chat.id, 'If you want to see the pictures of great artistse in any time send me "/anytime"')
+      elif (Counter[message.chat.id] > 10):
+         s.run()
+      else:
+         send_photo(message)
+   elif call.data == "cb_no":
+      pass
 
 @bot.message_handler(commands=['anytime'])
 def aytime(message):
@@ -59,7 +60,7 @@ def stop (message):
 
 @bot.message_handler(commands=['hour'])
 def every_hour_interval(message):
-   s.enter(15, 1, send_photo,argument = (message,))
+   s.enter(3600, 1, send_photo,argument = (message,))
    s.run()
 @bot.message_handler(commands=['half_day'])
 def every_half_of_day_interval(message):
@@ -67,6 +68,6 @@ def every_half_of_day_interval(message):
    s.run()
 @bot.message_handler(commands=['day'])
 def every_day_interval(message):
-   s.enter(86400, 1, send_photo,argument = (message,))
+   s.enter(86400, 1, sendp_photo,argument = (message,))
    s.run()  
 bot.polling(none_stop = True)
