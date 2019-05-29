@@ -2,10 +2,20 @@ import telebot, json
 import random
 import sched
 import time
+from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 token ='650690422:AAEsDalv8DDRAqZYW-bz_3LhcCrc9NqYujI'
 bot = telebot.TeleBot(token)
 Counter = {}
 s = sched.scheduler(time.time, time.sleep)
+
+
+def gen_markup():
+    markup = InlineKeyboardMarkup()
+    markup.row_width = 2
+    markup.add(InlineKeyboardButton("Yes", callback_data=f"cb_yes"),
+                               InlineKeyboardButton("No", callback_data=f"cb_no"))
+    return markup
+
 
 @bot.message_handler(commands=['help', 'start'])
 def send_welcome(message):
@@ -24,12 +34,6 @@ def send_photo(message):
       s.enter(15, 1, send_photo, argument = (message,))
       s.run()
       
-def gen_markup():
-    markup = InlineKeyboardMarkup()
-    markup.row_width = 2
-    markup.add(InlineKeyboardButton("Yes", callback_data=f"cb_yes"),
-                               InlineKeyboardButton("No", callback_data=f"cb_no"))
-    return markup
 
 @bot.callback_query_handler(func=lambda call: True)
 def callback_query(call):
