@@ -2,22 +2,25 @@ import telebot, json
 import random
 import sched
 import time
+import pandas as pd
+from recommender import RecommenderData
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 token ='650690422:AAEsDalv8DDRAqZYW-bz_3LhcCrc9NqYujI'
 bot = telebot.TeleBot(token)
 Counter = {}
 s = sched.scheduler(time.time, time.sleep)
+recommenders = {}
 
-
-def gen_markup():
+def gen_markup(num):
     markup = InlineKeyboardMarkup()
     markup.row_width = 2
-    markup.add(InlineKeyboardButton("Yes", callback_data="cb_yes"), InlineKeyboardButton("No", callback_data="cb_no"))
+    markup.add(InlineKeyboardButton("Yes", callback_data="cb_yes " + str(num)), InlineKeyboardButton("No", callback_data="cb_no"))
     return markup
 
 
 @bot.message_handler(commands=['help', 'start'])
 def send_welcome(message):
+   recommenders[message.chat.id] = RecommenderData()
    bot.send_message(message.chat.id, '''Hello, I am vandal_bot!
 If you want to stop working with me send "stop"''')
    #s.enter(0, 1, sendphoto,argument = (message.chat.id))
@@ -36,7 +39,7 @@ def send_photo(message):
 
 @bot.callback_query_handler(func=lambda call: True)
 def callback_query(call):
-   if call.data == "cb_yes":
+   if call.data[:6] == "cb_yes":
       if (call.id in Counter.keys()):
          Counter[call.message.chat.id] = Counter[call.message.chat.id] + 1
       else:
