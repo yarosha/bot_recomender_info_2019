@@ -25,6 +25,18 @@ class WikiArtHandler:
                 for j in self.allinf[4][i]:
                     print(j)
 
+    def get_pic(self, artist, name):
+        name = name.replace(" ", "-")
+        name = name.replace("(", "")
+        name = name.replace(")", "")
+        name = name.replace(",", "")
+        name = name.replace(".", "")
+        name = name.replace("!", "")
+        name = name.replace("?", "")
+        artist = artist.replace(" ", "-")
+        ap = 'https://uploads1.wikiart.org/images/{}/{}.jpg!Large.jpg'.format(artist.lower(), name.lower())
+        return requests.get(ap).content
+
     def get_works(self, artist):
         for i in range(len(self.allinf[0])):
             if self.allinf[0][i] == artist:
