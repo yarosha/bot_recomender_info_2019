@@ -27,9 +27,9 @@ If you want to stop working with me send "stop"''')
    
 def send_photo(message):
    print(1)
-   bot.send_photo(message.chat.id, open('Vasnetsov/{}.jpg'.format(2), 'rb'))
-   bot.send_message(message.chat.id,'Answer to me, do you like this picture. Answer only "/yes" or "/no"')
-   if (Counter[message.chat.id] >= 1):
+   bot.send_photo(message, open('Vasnetsov/{}.jpg'.format(2), 'rb'))
+   bot.send_message(message,'Answer to me, do you like this picture. Answer only "/yes" or "/no"')
+   if (Counter[message] >= 1):
       print(2)
       s.enter(15, 1, send_photo, argument = (message,))
       s.run()
@@ -38,16 +38,16 @@ def send_photo(message):
 @bot.callback_query_handler(func=lambda call: True)
 def callback_query(call):
    if call.data == "cb_yes":
-      if (message.chat.id in Counter.keys()):
-      Counter[message.chat.id] = Counter[message.chat.id] + 1
+      if (call.id in Counter.keys()):
+         Counter[call.id] = Counter[call.id] + 1
       else:
-         Counter[message.chat.id] = 10
-      if Counter[message.chat.id] == 10:
-         bot.send_message(message.chat.id, 'If you want to see the pictures of great artistse in any time send me "/anytime"')
-      elif (Counter[message.chat.id] > 10):
+         Counter[call.id] = 10
+      if Counter[call.id] == 10:
+         bot.send_message(call.id, 'If you want to see the pictures of great artistse in any time send me "/anytime"')
+      elif (Counter[call.id] > 10):
          s.run()
       else:
-         send_photo(message)
+         send_photo(call.id)
    elif call.data == "cb_no":
       pass
 
@@ -64,14 +64,14 @@ def stop (message):
 
 @bot.message_handler(commands=['hour'])
 def every_hour_interval(message):
-   s.enter(3600, 1, send_photo,argument = (message,))
+   s.enter(3600, 1, send_photo,argument = (message.chat.id,))
    s.run()
 @bot.message_handler(commands=['half_day'])
 def every_half_of_day_interval(message):
-   s.enter(43200, 1, send_photo,argument = (message,))
+   s.enter(43200, 1, send_photo,argument = (message.chat.id,))
    s.run()
 @bot.message_handler(commands=['day'])
 def every_day_interval(message):
-   s.enter(86400, 1, sendp_photo,argument = (message,))
+   s.enter(86400, 1, send_photo,argument = (message.chat.id,))
    s.run()  
 bot.polling(none_stop = True)
