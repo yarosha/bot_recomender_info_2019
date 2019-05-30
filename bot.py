@@ -4,13 +4,15 @@ import sched
 import time
 import pandas as pd
 from recommender import RecommenderData
+from parser import  WikiArtHandler
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 token ='650690422:AAEsDalv8DDRAqZYW-bz_3LhcCrc9NqYujI'
 bot = telebot.TeleBot(token)
 Counter = {}
 s = sched.scheduler(time.time, time.sleep)
 recommenders = {}
-
+df = pd.read_csv('df.csv')
+df.index = range(3250)
 def gen_markup(num):
     markup = InlineKeyboardMarkup()
     markup.row_width = 2
@@ -24,7 +26,8 @@ def send_welcome(message):
    bot.send_message(message.chat.id, '''Hello, I am vandal_bot!
 If you want to stop working with me send "stop"''')
    #s.enter(0, 1, sendphoto,argument = (message.chat.id))
-   bot.send_photo(message.chat.id, open('Vasnetsov/{}.jpg'.format(2), 'rb'))
+   print(df[recommenders[message.chat.id].get_next()])
+   bot.send_photo(message.chat.id, '')
    bot.send_message(message.chat.id,'Answer to me, do you like this picture. Answer only "/yes" or "/no"', reply_markup=gen_markup())
    
 def send_photo(message):

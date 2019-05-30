@@ -35,7 +35,7 @@ class WikiArtHandler:
         name = name.replace("?", "")
         artist = artist.replace(" ", "-")
         ap = 'https://uploads1.wikiart.org/images/{}/{}.jpg!Large.jpg'.format(artist.lower(), name.lower())
-        return requests.get(ap).content
+        return ap
 
     def get_works(self, artist):
         for i in range(len(self.allinf[0])):
