@@ -26,8 +26,8 @@ def send_welcome(message):
    bot.send_message(message.chat.id, '''Hello, I am vandal_bot!
 If you want to stop working with me send "stop"''')
    #s.enter(0, 1, sendphoto,argument = (message.chat.id))
-   print(df[recommenders[message.chat.id].get_next()])
-   bot.send_photo(message.chat.id, '')
+   print(WikiArtHandler.get_pic(df['title'][recommenders[message.chat.id].get_next()], df['artist'][recommenders[message.chat.id].get_next()]))
+   bot.send_photo(message.chat.id, WikiArtHandler.get_pic(df['title'][recommenders[message.chat.id].get_next()], df['artist'][recommenders[message.chat.id].get_next()]))
    bot.send_message(message.chat.id,'Answer to me, do you like this picture. Answer only "/yes" or "/no"', reply_markup=gen_markup())
    
 def send_photo(message):
