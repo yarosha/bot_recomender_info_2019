@@ -32,8 +32,7 @@ If you want to stop working with me send "stop"''')
    
 def send_photo(message):
    print(1)
-   bot.send_photo(message, open('Vasnetsov/{}.jpg'.format(2), 'rb'))
-   bot.send_message(message,'Answer to me, do you like this picture. Answer only "/yes" or "/no"')
+   bot.send_photo(message, WikiArtHandler.get_pic(df['title'][recommenders[message.chat.id].get_next()], df['artist'][recommenders[message.chat.id].get_next()]))
    if (Counter[message] >= 1):
       print(2)
       s.enter(2, 1, send_photo, argument = (message,))
@@ -43,6 +42,7 @@ def send_photo(message):
 @bot.callback_query_handler(func=lambda call: True)
 def callback_query(call):
    if call.data[:6] == "cb_yes":
+      recommenders[call.message.chat.id].update(call.data[7:])
       if (call.id in Counter.keys()):
          Counter[call.message.chat.id] = Counter[call.message.chat.id] + 1
       else:
