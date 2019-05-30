@@ -43,7 +43,7 @@ def send_photo(message):
 def callback_query(call):
    if call.data[:6] == "cb_yes":
       recommenders[call.message.chat.id].update(call.data[7:])
-      if (call.id in Counter.keys()):
+      if (call.message.chat.id in Counter.keys()):
          Counter[call.message.chat.id] = Counter[call.message.chat.id] + 1
       else:
          Counter[call.message.chat.id] = 10
