@@ -12,7 +12,7 @@ s = sched.scheduler(time.time, time.sleep)
 def gen_markup():
     markup = InlineKeyboardMarkup()
     markup.row_width = 2
-    markup.add(InlineKeyboardButton("Yes", callback_data=f"cb_yes"), InlineKeyboardButton("No", callback_data=f"cb_no"))
+    markup.add(InlineKeyboardButton("Yes", callback_data="cb_yes"), InlineKeyboardButton("No", callback_data="cb_no"))
     return markup
 
 
@@ -22,7 +22,7 @@ def send_welcome(message):
 If you want to stop working with me send "stop"''')
    #s.enter(0, 1, sendphoto,argument = (message.chat.id))
    bot.send_photo(message.chat.id, open('Vasnetsov/{}.jpg'.format(2), 'rb'))
-   bot.send_message(message.chat.id,'Answer to me, do you like this picture. Answer only "/yes" or "/no"')
+   bot.send_message(message.chat.id,'Answer to me, do you like this picture. Answer only "/yes" or "/no"', reply_markup=gen_markup())
    
 def send_photo(message):
    print(1)
@@ -30,7 +30,7 @@ def send_photo(message):
    bot.send_message(message,'Answer to me, do you like this picture. Answer only "/yes" or "/no"')
    if (Counter[message] >= 1):
       print(2)
-      s.enter(15, 1, send_photo, argument = (message,))
+      s.enter(2, 1, send_photo, argument = (message,))
       s.run()
       
 
@@ -38,15 +38,15 @@ def send_photo(message):
 def callback_query(call):
    if call.data == "cb_yes":
       if (call.id in Counter.keys()):
-         Counter[call.id] = Counter[call.id] + 1
+         Counter[call.message.chat.id] = Counter[call.message.chat.id] + 1
       else:
-         Counter[call.id] = 10
-      if Counter[call.id] == 10:
-         bot.send_message(call.id, 'If you want to see the pictures of great artistse in any time send me "/anytime"')
-      elif (Counter[call.id] > 10):
+         Counter[call.message.chat.id] = 10
+      if Counter[call.message.chat.id] == 10:
+         bot.answer_callback_query(call.id, 'If you want to see the pictures of great artistse in any time send me "/anytime"', show_alert=True)
+      elif (Counter[call.message.chat.id] > 10):
          s.run()
       else:
-         send_photo(call.id)
+         send_photo(call.message.chat.id)
    elif call.data == "cb_no":
       pass
 
@@ -63,7 +63,7 @@ def stop (message):
 
 @bot.message_handler(commands=['hour'])
 def every_hour_interval(message):
-   s.enter(3600, 1, send_photo,argument = (message.chat.id,))
+   s.enter(2, 1, send_photo,argument = (message.chat.id,))
    s.run()
 @bot.message_handler(commands=['half_day'])
 def every_half_of_day_interval(message):
