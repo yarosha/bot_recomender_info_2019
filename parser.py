@@ -5,7 +5,7 @@ import requests
 from os import mkdir
 from tqdm import tqdm
 from random import choice
-
+import json
 class WikiArtHandler:
     def __init__(self):
         f = open('artinfo.json', 'r')
@@ -25,7 +25,7 @@ class WikiArtHandler:
                 for j in self.allinf[4][i]:
                     print(j)
 
-    def get_pic(self, artist, name):
+    def get_pic(artist, name):
         name = name.replace(" ", "-")
         name = name.replace("(", "")
         name = name.replace(")", "")
